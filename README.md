@@ -43,4 +43,73 @@ This repository is for use in my Udemy Courses "[Docker Mastery](https://www.ude
 27. Dockerfile and Compose File Reviews
 28. Extra's, Common Questions, and Resources
 
-Feel free to create issues or PRs if you find a problem with examples in this repository!
+# Docker Image V.S. Docker Container
+
+- A **Docker image** is a **read-only** blueprint for creating containers Docker contains all the libraries and source code that all make up your application.
+
+- A **Docker registry** is a **storage and distribution system** for Docker images. It allows images to be pushed (uploaded) and pulled (downloaded). Popular registries include: Docker Hub (public), Amazon ECR (AWS), Google Container Registry (GCR) and Private Docker registries (self-hosted)
+
+- Docker Container is an instance of that image running as a process. You can have many running same docker image
+
+-docker's default image "registry" is called Docker Hub
+
+
+# Docker container command
+
+      # general syntax for docker container run
+      
+      docker container run [OPTIONS] IMAGE [COMMAND] [ARG...]
+      
+      Common docker run Options
+      Option	                            Description
+
+      --name my-container	                Assigns a custom name to the container.
+      -d	                                  Runs the container in detached mode (in the background).
+      -p 8080:80	                         Maps port 80 in the container to port 8080 on the host.
+      -v /host/path:/container/path	       Mounts a volume from the host to the container.
+      -e ENV_VAR=value	                   Sets an environment variable inside the container.
+      --rm	                               Removes the container automatically when it stops.
+      --network my-network	                Connects the container to a specific Docker network.
+
+      # create and basic command
+
+      - docker container run --publish 80:80 nginx : 
+      1) Downloading image 'nginx' from Docker Hub 
+      2) started a new container from that image
+      3) opened port 80 on the host IP
+      4) Routes that traffic to the container IP, port 80
+      5) and it is running in foreground(ข้างหน้า) inside command line
+
+      - docker container run --name my-nginx --publish 80:80 --detach nginx:
+      basiclly same as above but running in the background instead of foreground
+      quick note: nginx - Specifies the Nginx Docker image (defaults to the latest version from Docker Hub).
+
+      - stop docker contatiner : docker container stop <container id/name>. ex: docker container stop 3df9.
+
+      - list all docker container we have: docker container ls -a.
+      - list all running docker container we have: docker container ls.
+      
+      - get log(activities) from docker container: docker container logs <container name>. ex: docker container logs abc.
+
+      - remove docker container(you can't delete docker container that are currently running): docker container rm <container name>. ex: docker container rm 3df9 61e9.
+
+      # Process and Monitoring
+      
+      - docker container top <container name>: process list in one container.
+
+      - docker container inspect <container name>: details of one container config.
+
+      - docker container stats: performance stats for all containers.
+
+      # get in container
+
+      - docker container run -it --name ubuntu1 ubuntu : create container and making command access by ubuntu
+
+      - docker container start -ai <container name> : access that container. only work if the container's default command is interactive (e.g., bash, sh)
+
+      - docker container exec -it <container name> <program you want to run such as ubuntu, bash> : run a command inside an already running container
+
+# what happens in the backgroud when we run 'docker container run'
+
+
+![alt text](<Screenshot (157).png>)
